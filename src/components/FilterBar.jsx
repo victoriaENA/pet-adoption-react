@@ -18,7 +18,7 @@ const FilterBar = ({onFilter}) => {
   };
 
   return (
-    <div className="sticky top-14 z-40 w-10/12 mx-auto bg-gray-100 shadow-md py-3 mb-5 ">
+    <div className="sticky top-14 z-40 w-9/12 mx-auto bg-gray-100 shadow-md py-3 mb-5 rounded-lg ">
       <div className="max-w-6xl mx-auto px-4 flex flex-wrap gap-4 justify-center items-center">
         {/* Dropdown for pet type */}
         <select name="type" onChange={handleChange} className="border rounded-lg px-3 py-2">
