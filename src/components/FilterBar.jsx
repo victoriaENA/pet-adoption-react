@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 
-const FilterBar = ({onFilter}) => {
+const FilterBar = ({onFilter, onShowFavorites}) => {
 
     const [filters, setFilters] = useState({  //filters is state object that keeps track of the selected filters
     type: "",
@@ -18,7 +18,7 @@ const FilterBar = ({onFilter}) => {
   };
 
   return (
-    <div className="sticky top-14 max-w-[69%] mx-auto bg-gray-50  py-3 mb-5 rounded-lg shadow-lg ">
+    <div className="sticky z-40 top-14 max-w-[69%] mx-auto bg-gray-50  py-3 mb-5 rounded-lg shadow-lg ">
       <div className="max-w-6xl px-4 flex items-center justify-between ">
 
          <div className="flex gap-4 flex-wrap">
@@ -64,7 +64,7 @@ const FilterBar = ({onFilter}) => {
           {/* Dropdown for sex */}
           <select 
             name="gender" 
-            type={filters.gender}
+            value={filters.gender}
             onChange={handleChange} 
             className="border border-transparent rounded-lg px-3 py-2 shadow-sm cursor-pointer"
           >
@@ -73,17 +73,29 @@ const FilterBar = ({onFilter}) => {
             <option value="Male">Male</option>
           </select>
 
+          
+
         </div>
 
-        <button 
-          onClick={() => {
-            const reset = { type: "all", gender: "all", size: "all", age: "all" };
-            setFilters(reset);
-            onFilter(reset);
-          }} 
-          className="px-4 py-2 bg-gray-300  text-white rounded-lg border-transparent hover:bg-gray-400 cursor-pointer">
-          Reset
-        </button>
+        <div className="flex gap-4">
+    
+          <button 
+            onClick={() => {
+              const reset = { type: "all", gender: "all", size: "all", age: "all" };
+              setFilters(reset);
+              onFilter(reset);
+            }} 
+            className="px-4 py-2 bg-gray-100 text-gray-300 rounded-lg border-gray-300 hover:shadow-xs cursor-pointer">
+            Reset
+          </button>
+
+          <button
+            onClick={onShowFavorites}
+            className="px-4 py-2 bg-red-400 text-white rounded-lg hover:bg-red-500 transition cursor-pointer"
+          >
+            Favorites
+          </button>
+        </div>
 
       </div>
       
