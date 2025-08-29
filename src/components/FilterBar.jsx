@@ -4,7 +4,7 @@ import React, { useState } from "react";
 const FilterBar = ({onFilter, onShowFavorites}) => {
 
     const [filters, setFilters] = useState({  //filters is state object that keeps track of the selected filters
-    type: "",
+    species: "",
     gender: "",    // filters are empty - shows everything 
     size: "",
     age: ""
@@ -12,7 +12,7 @@ const FilterBar = ({onFilter, onShowFavorites}) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;  //e.target retrieves the element that triggered the event
-    const newFilters = { ...filters, [name]: value };  //retrieves filter pairs and populates them with name & value
+    const newFilters = { ...filters, [name]: value };  //retrieves existing filter pairs and populates them with name & value
     setFilters(newFilters); //sets new filters
     onFilter(newFilters);  //calls function in Gallery.jsx 
   };
@@ -23,16 +23,17 @@ const FilterBar = ({onFilter, onShowFavorites}) => {
 
          <div className="flex gap-4 flex-wrap">
 
-          {/* Dropdown for pet type */}
+          {/* Dropdown for pet species */}
           <select 
-            name="type" 
-            value={filters.type}
+            name="species" 
+            value={filters.species}
             onChange={handleChange} 
             className="border border-transparent rounded-lg px-3 py-2 shadow-sm cursor-pointer"
           >
             <option value="all">All Pets</option>
             <option value="Dog">Dogs</option>
             <option value="Cat">Cats</option>
+            <option value="Other">Other</option>
           </select>
 
           {/* Dropdown for age */}
@@ -43,7 +44,8 @@ const FilterBar = ({onFilter, onShowFavorites}) => {
             className="border border-transparent rounded-lg px-3 py-2 shadow-sm cursor-pointer"
           >
             <option value="all">Any Age</option>
-            <option value="Puppy,Kitten">Puppy/Kitten</option>
+            <option value="Baby">Baby</option>
+            <option value="Young">Young</option>
             <option value="Adult">Adult</option>
             <option value="Senior">Senior</option>
           </select>
@@ -73,15 +75,13 @@ const FilterBar = ({onFilter, onShowFavorites}) => {
             <option value="Male">Male</option>
           </select>
 
-          
-
         </div>
 
         <div className="flex gap-4">
     
           <button 
             onClick={() => {
-              const reset = { type: "all", gender: "all", size: "all", age: "all" };
+              const reset = { species: "all", gender: "all", size: "all", age: "all" };
               setFilters(reset);
               onFilter(reset);
             }} 

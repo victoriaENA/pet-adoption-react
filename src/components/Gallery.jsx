@@ -1,39 +1,91 @@
-import React, { useState } from "react";
-import petsData from "../data/pets";
+import React, { useState, useEffect } from "react";
 import FilterBar from "./FilterBar";
 import Modal from "./Modal";
 
 
 const Gallery = () => {
 
-  const [filteredPets, setFilteredPets] = useState(petsData);   //using useState because data will change when filtered 
+  const [pets, setPets] = useState([]); // raw data from API
+  const [filteredPets, setFilteredPets] = useState([]);   //using useState because data will change when filtered 
   const [selectedPet, setSelectedPet] = useState(null); // track which pet is clicked (for modal)
   const [visibleCount, setVisibleCount] = useState(9); // number of pets to show initially
+
  
   const [favorites, setFavorites] = useState(() => {  //favorites useState
     const saved = localStorage.getItem("favorites");
-    return saved ? JSON.parse(saved) : [];  //?
+    return saved ? JSON.parse(saved) : [];  //if saved exists parse it, else return empty array to render the favorites
   });
 
   const toggleFavorite = (petId) => { //add/remove pets from favorites and sync with localStorage
-  let updated;
-  if (favorites.includes(petId)) {
-    updated = favorites.filter((id) => id !== petId); // remove
-  } else {
-    updated = [...favorites, petId]; // add
-  }
-  setFavorites(updated);
-  localStorage.setItem("favorites", JSON.stringify(updated));
-};
+    let updated;
+    if (favorites.includes(petId)) {
+      updated = favorites.filter((id) => id !== petId); // remove - returns new array without petId
+    } else {
+      updated = [...favorites, petId]; // add
+    }
+    setFavorites(updated);
+    localStorage.setItem("favorites", JSON.stringify(updated));
+ };
+
+ // Fetch Petfinder API token and pets
+  useEffect(() => {
+    const fetchPets = async () => {
+      try {
+        // 1Get the access token
+        const tokenRes = await fetch("https://api.petfinder.com/v2/oauth2/token", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: `grant_type=client_credentials&client_id=${import.meta.env.VITE_PETFINDER_CLIENT_ID}&client_secret=${import.meta.env.VITE_PETFINDER_SECRET}`
+        });
+        const tokenData = await tokenRes.json();
+        const accessToken = tokenData.access_token;
+
+        // Use the token to fetch pets
+        const petsRes = await fetch("https://api.petfinder.com/v2/animals?limit=50", {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        });
+        const petsData = await petsRes.json();
+        console.log("Pet data:", petsData.animals);
+
+        // Remove duplicates based on name and breed
+        const normalize = str => str?.toLowerCase().trim();
+        const uniquePets = petsData.animals.filter((pet, index, self) =>
+          index === self.findIndex(p =>
+            normalize(p.name) === normalize(pet.name) &&
+            normalize(p.breeds.primary) === normalize(pet.breeds.primary)
+          )
+        );
+
+        const hasValidImage = (pet) =>
+          (pet.photos && pet.photos.length > 0) ||
+          (pet.primary_photo_cropped && pet.primary_photo_cropped.medium);
+        
+
+        const visiblePets = uniquePets.filter(hasValidImage);
+
+        setPets(visiblePets);       // store API pets
+        setFilteredPets(visiblePets); //  initially show all
+      } catch (error) {
+        console.error("Error fetching pets:", error);
+      }
+
+    }; 
+
+    fetchPets();
+  }, []); //  runs once on mount
 
 
   // function to update pets list from FilterBar
   const handleFilter = (filters) => {  //filters is passed by FilterBar 
     
-    let results = petsData;  //original data 
+    let results = pets;  //original data 
 
-    if (filters.type && filters.type !== "all") {
-      results = results.filter((pet) => pet.type === filters.type);
+    if (filters.species && filters.species !== "all") {
+      if (filters.species === "Other") {
+        results = results.filter((pet) => pet.species !== "Dog" && pet.species !== "Cat");
+      } else {
+        results = results.filter((pet) => pet.species === filters.species);
+      }
     }
 
     if (filters.gender && filters.gender !== "all") {
@@ -59,7 +111,7 @@ const Gallery = () => {
       <FilterBar 
         onFilter={handleFilter} 
         onShowFavorites={() => {
-          const favPets = petsData.filter((p) => favorites.includes(p.id));
+          const favPets = pets.filter((p) => favorites.includes(p.id));
           setFilteredPets(favPets);
           setSelectedPet(null); // close modal if open
         }} 
@@ -72,10 +124,11 @@ const Gallery = () => {
             className="border relative border-gray-200 rounded-2xl shadow hover:shadow-lg hover:bg-amber-100 transition cursor-pointer bg-amber-50"
             onClick={() => setSelectedPet(pet)} // open modal on click
           >
-            <img
-              src={pet.image}
-              alt={pet.name}
-              className="w-full h-48 object-cover rounded-t-2xl "
+
+            <img 
+              src={pet.photos?.[0]?.medium} 
+              alt={pet.name} 
+              className="w-full h-48 object-cover rounded-t-2xl"
             />
 
              {/* Favorite button */}
@@ -93,7 +146,7 @@ const Gallery = () => {
 
             <h3 className="text-xl px-2 font-semibold mt-2">{pet.name}</h3>
             <p className="px-2 pb-2" >
-              {pet.breed} • {pet.age} • {pet.size} • {pet.gender}
+              {pet.breeds.primary} • {pet.age} • {pet.size} • {pet.gender}
             </p>
 
           </div>
@@ -103,8 +156,6 @@ const Gallery = () => {
       <Modal 
         pet={selectedPet} 
         onClose={() => setSelectedPet(null)} 
-        favorites={favorites} 
-        toggleFavorite={toggleFavorite}
       />
 
       {visibleCount < filteredPets.length && (
