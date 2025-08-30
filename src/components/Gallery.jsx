@@ -27,52 +27,65 @@ const Gallery = () => {
     localStorage.setItem("favorites", JSON.stringify(updated));
  };
 
- // Fetch Petfinder API token and pets
-  useEffect(() => {
-    const fetchPets = async () => {
-      try {
-        // 1Get the access token
-        const tokenRes = await fetch("https://api.petfinder.com/v2/oauth2/token", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: `grant_type=client_credentials&client_id=${import.meta.env.VITE_PETFINDER_CLIENT_ID}&client_secret=${import.meta.env.VITE_PETFINDER_SECRET}`
-        });
-        const tokenData = await tokenRes.json();
-        const accessToken = tokenData.access_token;
+// Fetch Petfinder API token and pets
+useEffect(() => {
+  const fetchPets = async () => {
+    try {
+      // 1Get the access token
+      const tokenRes = await fetch("https://api.petfinder.com/v2/oauth2/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `grant_type=client_credentials&client_id=${import.meta.env.VITE_PETFINDER_CLIENT_ID}&client_secret=${import.meta.env.VITE_PETFINDER_SECRET}`
+      });
+      const tokenData = await tokenRes.json();
+      const accessToken = tokenData.access_token;
 
-        // Use the token to fetch pets
-        const petsRes = await fetch("https://api.petfinder.com/v2/animals?limit=50", {
+      // 2Fetch pets in pages until we have 50 valid ones
+      let allPets = [];          // store all valid pets
+      let page = 1;              // start from page 1
+      const normalize = str => str?.toLowerCase().trim(); // helper to standardize strings
+      const seen = new Set();    // track duplicates
+
+      // 3Check if pet has a valid image
+      const hasValidImage = (pet) =>
+        (pet.photos && pet.photos.length > 0) ||
+        (pet.primary_photo_cropped && pet.primary_photo_cropped.medium);
+
+      // 4Loop through pages until we collect 50 valid pets
+      while (allPets.length < 50) {
+        const petsRes = await fetch(`https://api.petfinder.com/v2/animals?limit=100&page=${page}`, {
           headers: { Authorization: `Bearer ${accessToken}` }
         });
         const petsData = await petsRes.json();
-        console.log("Pet data:", petsData.animals);
+        const batch = petsData.animals;
 
-        // Remove duplicates based on name and breed
-        const normalize = str => str?.toLowerCase().trim();
-        const uniquePets = petsData.animals.filter((pet, index, self) =>
-          index === self.findIndex(p =>
-            normalize(p.name) === normalize(pet.name) &&
-            normalize(p.breeds.primary) === normalize(pet.breeds.primary)
-          )
-        );
+        if (!batch || batch.length === 0) break; // no more pets to fetch
 
-        const hasValidImage = (pet) =>
-          (pet.photos && pet.photos.length > 0) ||
-          (pet.primary_photo_cropped && pet.primary_photo_cropped.medium);
-        
+        // 5Filter out duplicates and pets without images
+        const filtered = batch.filter((pet) => {
+          const key = `${normalize(pet.name)}-${normalize(pet.breeds.primary)}`;
+          if (seen.has(key) || !hasValidImage(pet)) return false;
+          seen.add(key);
+          return true;
+        });
 
-        const visiblePets = uniquePets.filter(hasValidImage);
-
-        setPets(visiblePets);       // store API pets
-        setFilteredPets(visiblePets); //  initially show all
-      } catch (error) {
-        console.error("Error fetching pets:", error);
+        allPets = [...allPets, ...filtered]; // add to master list
+        page++; // move to next page
       }
 
-    }; 
+      // 6Trim to exactly 50 pets and store
+      const finalPets = allPets.slice(0, 50);
+      console.log("Final visible pets:", finalPets.length);
 
-    fetchPets();
-  }, []); //  runs once on mount
+      setPets(finalPets);         // store API pets
+      setFilteredPets(finalPets); // initially show all
+    } catch (error) {
+      console.error("Error fetching pets:", error);
+    }
+  };
+
+  fetchPets(); // runs once on mount
+}, []);
 
 
   // function to update pets list from FilterBar
@@ -105,6 +118,8 @@ const Gallery = () => {
     setSelectedPet(null); // close modal when filtering
 
   }
+
+
 
   return (
     <section id="gallery" className="pb-16 bg-white mx-auto">

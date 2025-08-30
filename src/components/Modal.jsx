@@ -26,6 +26,7 @@ const Modal = ({ pet, onClose }) => {  //receives pet object and onClose functio
     };
 
     const rawDescription = pet.description;
+
     cleanedDescription = decodeHTML(
       rawDescription.replace(/\{[^}]+\}/g, "").trim()
     );
