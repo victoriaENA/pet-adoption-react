@@ -16,8 +16,8 @@ const NavBar = () => {
         </h1>
 
         <ul className="flex gap-6">
-          <li className="px-4" >
-            <a href="#gallery" className="font-nunito font-bold">Adopt</a>
+          <li className="px-4 " >
+            <a href="#gallery" className="font-nunito font-bold ">Adopt</a>
           </li>
           <li>
             <a href="#contact" className=" font-nunito font-bold">Contact</a>

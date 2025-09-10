@@ -117,32 +117,44 @@ const Modal = ({ pet, onClose }) => {  //receives pet object and onClose functio
 
         {/* Adoption Form - if showForm true display ()*/}
         {showForm && (
-          <form className="flex flex-col gap-2 " onSubmit={handleSubmit}>
-            <h2 className="text-2xl font-bold mb-4">Adopt Me</h2>
+          <div className="bg-white shadow-lg rounded-lg border p-6 border-blue-50">
+
+          <form className="flex flex-col gap-2 relative bottom-2 font-nunito" onSubmit={handleSubmit}>
+            <h2 className="text-2xl font-extrabold mb-4 font-fredoka text-teal-600  flex items-center gap-2">
+              Adopt Me 🐾
+            </h2>
             <input type="text" placeholder="Your Name" className="border rounded px-3 py-2" required />
             <input type="email" placeholder="Email" className="border rounded px-3 py-2" required />
 
-            <div className="flex flex-col gap-2">
-              <label className="flex items-center gap-2">
+            <div className="flex flex-col gap-2 font-medium pl-1 text-gray-500">
+              <label className="flex items-center gap-2 pr-1">
                 <span>Do you have children?</span>
-                <div className="flex gap-4">
+                <div className="flex gap-4 ">
                   <label className="flex items-center gap-1">
-                    <input type="radio" name="haveChildren" value="yes" required /> Yes
+                    <input  type="radio" name="haveChildren" value="yes" required className="hidden peer" /> 
+                    <span className="w-3 h-3 rounded-full border-2 border-gray-400 peer-checked:bg-black cursor-pointer"></span>
+                    Yes
                   </label>
                   <label className="flex items-center gap-1">
-                    <input type="radio" name="haveChildren" value="no" /> No
+                    <input type="radio" name="haveChildren" value="no" className="hidden peer"/> 
+                    <span className="w-3 h-3 rounded-full border-2 border-gray-400 peer-checked:bg-black cursor-pointer"></span>
+                    No
                   </label>
                 </div>
               </label>
 
-              <label className="flex items-center gap-2">
+              <label className="flex items-center gap-2 pr-1">
                 <span>Do you have another pet?</span>
                 <div className="flex gap-4">
                   <label className="flex items-center gap-1">
-                    <input type="radio" name="haveOtherPet" value="yes" required /> Yes
+                    <input type="radio" name="haveOtherPet" value="yes" required className="hidden peer" /> 
+                    <span className="w-3 h-3 rounded-full border-2 border-gray-400 peer-checked:bg-black cursor-pointer"></span>
+                    Yes
                   </label>
                   <label className="flex items-center gap-1">
-                    <input type="radio" name="haveOtherPet" value="no" /> No
+                    <input type="radio" name="haveOtherPet" value="no" className="hidden peer" /> 
+                     <span className="w-3 h-3 rounded-full border-2 border-gray-400 peer-checked:bg-black cursor-pointer"></span>
+                     No
                   </label>
                 </div>
               </label>
@@ -152,11 +164,12 @@ const Modal = ({ pet, onClose }) => {  //receives pet object and onClose functio
 
             <button
               type="submit"
-              className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 cursor-pointer font-nunito"
+              className="px-4 py-2 bg-blue-300 text-white rounded hover:bg-blue-400 cursor-pointer font-nunito"
             >
               Submit
             </button>
           </form>
+          </div>
         )}
       </div>
     </div>

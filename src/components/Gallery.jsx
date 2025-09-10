@@ -159,12 +159,14 @@ onClick={() => setSelectedPet(pet)} // open modal on click
               ♥
             </button>
 
-            <h3 className="text-lg px-2 font-bold mt-2 font-nunito">{pet.name}</h3>
-            <p className="px-2 pb-2 font-nunito" >
-               
-              {pet.age} • {pet.size} • {pet.gender}
-            </p>
+            <h3 className="text-lg px-4 font-bold mt-2 font-nunito  ">{pet.name}</h3>
+            <div className="flex justify-between px-4 pb-2 font-nunito text-gray-400  ">
+              <span>{pet.age}</span>
+              
+              <span>{pet.gender}</span>
+            </div>
 
+  
           </div>
         ))}
       </div>
