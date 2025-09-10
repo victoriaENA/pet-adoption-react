@@ -18,7 +18,7 @@ const FilterBar = ({onFilter, onShowFavorites}) => {
   };
 
   return (
-    <div className="sticky z-40 top-14 max-w-[69%] mx-auto bg-gray-50  py-3 mb-5 rounded-lg shadow-lg ">
+    <div className="sticky z-40 top-14 max-w-[69%] mx-auto bg-gray-50  py-3 mb-5 rounded-lg shadow-xl">
       <div className="max-w-6xl px-4 flex items-center justify-between ">
 
          <div className="flex gap-4 flex-wrap">
@@ -28,7 +28,7 @@ const FilterBar = ({onFilter, onShowFavorites}) => {
             name="species" 
             value={filters.species}
             onChange={handleChange} 
-            className="border border-transparent rounded-lg px-3 py-2 shadow-sm cursor-pointer"
+            className="border border-transparent rounded-lg px-3 py-2 shadow-sm cursor-pointer font-nunito"
           >
             <option value="all">All Pets</option>
             <option value="Dog">Dogs</option>
@@ -41,7 +41,7 @@ const FilterBar = ({onFilter, onShowFavorites}) => {
             name="age" 
             value={filters.age}
             onChange={handleChange} 
-            className="border border-transparent rounded-lg px-3 py-2 shadow-sm cursor-pointer"
+            className="border border-transparent rounded-lg px-3 py-2 shadow-sm cursor-pointer font-nunito"
           >
             <option value="all">Any Age</option>
             <option value="Baby">Baby</option>
@@ -55,7 +55,7 @@ const FilterBar = ({onFilter, onShowFavorites}) => {
             name="size" 
             value={filters.size}
             onChange={handleChange} 
-            className="border border-transparent rounded-lg px-3 py-2 shadow-sm cursor-pointer"
+            className="border border-transparent rounded-lg px-3 py-2 shadow-sm cursor-pointer font-nunito"
           >
             <option value="all">Any Size</option>
             <option value="Small">Small</option>
@@ -68,7 +68,7 @@ const FilterBar = ({onFilter, onShowFavorites}) => {
             name="gender" 
             value={filters.gender}
             onChange={handleChange} 
-            className="border border-transparent rounded-lg px-3 py-2 shadow-sm cursor-pointer"
+            className="border border-transparent rounded-lg px-3 py-2 shadow-sm cursor-pointer font-nunito"
           >
             <option value="all">Any Sex</option>
             <option value="Female">Female</option>
@@ -85,13 +85,13 @@ const FilterBar = ({onFilter, onShowFavorites}) => {
               setFilters(reset);
               onFilter(reset);
             }} 
-            className="px-4 py-2 bg-gray-100 text-gray-300 rounded-lg border-gray-300 hover:shadow-xs cursor-pointer">
+            className="px-4 py-2 bg-gray-100 text-gray-300 rounded-lg border-gray-300 hover:shadow-xs cursor-pointer font-nunito">
             Reset
           </button>
 
           <button
             onClick={onShowFavorites}
-            className="px-4 py-2 bg-red-400 text-white rounded-lg hover:bg-red-500 transition cursor-pointer"
+            className="px-4 py-2 bg-red-400 text-white rounded-lg hover:bg-red-500 transition cursor-pointer font-nunito border-transparent"
           >
             Favorites
           </button>

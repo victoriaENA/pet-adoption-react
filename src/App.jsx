@@ -9,10 +9,14 @@ import Footer from './components/Footer'
 
 function App() {
   return (
-    <div className="App scroll-smooth"> 
+    <div className="flex flex-col min-h-screen scroll-smooth">
       <NavBar />
       <Slogan />
-      <Gallery />
+
+      <main className="flex-grow">
+        <Gallery />
+      </main>
+
       <Footer />
     </div>
   );

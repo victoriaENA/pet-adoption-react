@@ -94,11 +94,11 @@ const Modal = ({ pet, onClose }) => {  //receives pet object and onClose functio
           </div>
 
 
-          <h3 className="text-lg font-bold mb-2">{pet.name}</h3>
-          <p className="mb-2 s">{pet.breeds.primary} • {pet.age} • {pet.size} • {pet.gender}</p>
+          <h3 className="text-lg font-bold mb-2 font-nunito">{pet.name}</h3>
+          <p className="mb-2 s font-nunito">{pet.breeds.primary} • {pet.age} • {pet.size} • {pet.gender}</p>
           {cleanedDescription && (
             <p
-              className="mb-4 text-gray-700 whitespace-pre-line"
+              className="mb-4 text-gray-700 whitespace-pre-line font-nunito"
               dangerouslySetInnerHTML={{ __html: cleanedDescription }}
             />
           )}
@@ -106,7 +106,8 @@ const Modal = ({ pet, onClose }) => {  //receives pet object and onClose functio
           {/* Show adopt button only when form is not visible */}
           {!showForm && (
             <button
-              className="px-4 py-2 bg-amber-500 text-white rounded hover:bg-amber-600 cursor-pointer"
+              className="px-4 py-2 bg-gradient-to-r from-purple-400 to-indigo-600 text-white rounded-lg hover:from-purple-600  cursor-pointer font-nunito"
+
               onClick={() => setShowForm(true)}
             >
               Adopt Me
@@ -151,7 +152,7 @@ const Modal = ({ pet, onClose }) => {  //receives pet object and onClose functio
 
             <button
               type="submit"
-              className="px-4 py-2 bg-amber-500 text-white rounded hover:bg-amber-600 cursor-pointer"
+              className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 cursor-pointer font-nunito"
             >
               Submit
             </button>

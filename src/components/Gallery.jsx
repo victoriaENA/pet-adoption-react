@@ -136,14 +136,14 @@ useEffect(() => {
         {filteredPets.slice(0, visibleCount).map((pet) => (  //slices the number of pets shown 
           <div
             key={pet.id}
-            className="border relative border-gray-200 rounded-2xl shadow hover:shadow-lg hover:bg-amber-100 transition cursor-pointer bg-amber-50"
-            onClick={() => setSelectedPet(pet)} // open modal on click
+className="border relative border-gray-200 rounded-2xl shadow-xl hover:bg-blue-300  hover:opacity-80  cursor-pointer bg-blue-50 hover:-translate-y-0.5 hover:scale-[1.02] transform transition duration-300 ease-in-out"            
+onClick={() => setSelectedPet(pet)} // open modal on click
           >
 
             <img 
               src={pet.photos?.[0]?.medium} 
               alt={pet.name} 
-              className="w-full h-48 object-cover rounded-t-2xl"
+              className="w-full h-48 object-cover rounded-t-2xl "
             />
 
              {/* Favorite button */}
@@ -152,16 +152,17 @@ useEffect(() => {
                 e.stopPropagation(); // prevents modal opening when clicking heart
                 toggleFavorite(pet.id);
               }}
-              className={`absolute top-2 right-2 text-2xl cursor-pointer ${
+              className={`absolute top-2 right-2 text-3xl cursor-pointer ${
                 favorites.includes(pet.id) ? "text-red-500" : "text-gray-300"
               }`}
             >
               ♥
             </button>
 
-            <h3 className="text-xl px-2 font-semibold mt-2">{pet.name}</h3>
-            <p className="px-2 pb-2" >
-              {pet.breeds.primary} • {pet.age} • {pet.size} • {pet.gender}
+            <h3 className="text-lg px-2 font-bold mt-2 font-nunito">{pet.name}</h3>
+            <p className="px-2 pb-2 font-nunito" >
+               
+              {pet.age} • {pet.size} • {pet.gender}
             </p>
 
           </div>
@@ -177,7 +178,7 @@ useEffect(() => {
         <div className="flex justify-center mt-8">
           <button
             onClick={() => setVisibleCount(visibleCount + 9)}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition cursor-pointer"
+            className="px-4 py-2 bg-teal-600 opacity-80 text-white rounded-lg hover:shadow-sm  cursor-pointer font-nunito"
           >
             Show More
           </button>

@@ -2,11 +2,16 @@ import React from "react";
 
 const Slogan = () => {
   return (
-    <section id="slogan" className="flex flex-col justify-center items-center bg-blue-100 h-80 pt-18">
-      <h2 className="text-4xl font-bold mb-4">Find Your Purrfect Match!</h2>
-      <p className="text-lg text-gray-700 text-center max-w-xl">
-        Browse through our collection of adorable pets and help them find a forever home!
-      </p>
+    <section
+      id="slogan"
+      className="relative flex flex-col justify-center items-center h-84 bg-[url('/cat.jpg')] bg-cover  bg-[center_top_14%]"
+    >
+      <div className="absolute inset-0  mix-blend-multiply"></div>
+
+      <h2 className="text-5xl font-bold mb-3 font-fredoka text-black relative bottom-4 ">Every <span className="text-teal-700">Paw</span> Has a Story</h2>
+      <h2 className="text-5xl font-bold font-fredoka text-black  relative bottom-4 ">Find <span className="text-teal-700">Yours</span> Today</h2>
+      
+     
     </section>
   );
 };
