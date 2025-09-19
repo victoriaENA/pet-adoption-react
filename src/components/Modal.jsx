@@ -106,7 +106,7 @@ const Modal = ({ pet, onClose }) => {  //receives pet object and onClose functio
           {/* Show adopt button only when form is not visible */}
           {!showForm && (
             <button
-              className="px-4 py-2 bg-gradient-to-r from-purple-400 to-indigo-600 text-white rounded-lg hover:from-purple-600  cursor-pointer font-nunito"
+              className="px-4 py-2 bg-gradient-to-r  hover:shadow-md from-purple-400 to-indigo-600 text-white rounded-lg hover:from-purple-600  cursor-pointer font-nunito"
 
               onClick={() => setShowForm(true)}
             >
@@ -164,7 +164,7 @@ const Modal = ({ pet, onClose }) => {  //receives pet object and onClose functio
 
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-300 text-white rounded hover:bg-blue-400 cursor-pointer font-nunito"
+              className="px-4 py-2 bg-gradient-to-r from-purple-400 to-indigo-600 hover:from-purple-600 text-white rounded hover:bg-teal-600 cursor-pointer font-nunito"
             >
               Submit
             </button>

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 
-import NavBar from './components/navBar'
+import NavBar from './components/NavBar'
 import Slogan from './components/Slogan'
 import Gallery from './components/Gallery'
 import Footer from './components/Footer'

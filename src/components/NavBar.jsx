@@ -20,7 +20,7 @@ const NavBar = () => {
             <a href="#gallery" className="font-nunito font-bold ">Adopt</a>
           </li>
           <li>
-            <a href="#contact" className=" font-nunito font-bold">Contact</a>
+            <a href="#connect" className=" font-nunito font-bold">Connect</a>
           </li>
         </ul>
       </div>

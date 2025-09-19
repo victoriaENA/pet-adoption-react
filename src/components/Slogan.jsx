@@ -4,7 +4,7 @@ const Slogan = () => {
   return (
     <section
       id="slogan"
-      className="relative flex flex-col justify-center items-center h-84 bg-[url('/cat.jpg')] bg-cover  bg-[center_top_14%]"
+      className=" relative flex flex-col justify-center items-center h-84 bg-[url('/cat.jpg')] bg-cover  bg-[center_top_14%]"
     >
       <div className="absolute inset-0  mix-blend-multiply"></div>
 

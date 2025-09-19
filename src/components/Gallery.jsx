@@ -122,7 +122,7 @@ useEffect(() => {
 
 
   return (
-    <section id="gallery" className="pb-16 bg-white mx-auto">
+    <section id="gallery" className=" min-h-[50vh] pb-16 bg-white mx-auto">
       <FilterBar 
         onFilter={handleFilter} 
         onShowFavorites={() => {
@@ -131,6 +131,15 @@ useEffect(() => {
           setSelectedPet(null); // close modal if open
         }} 
       />
+
+      {/* If no pets match filter */}
+    {filteredPets.length === 0 ? (
+      <div className="flex flex-col items-center justify-center py-10 text-gray-500 font-nunito">
+        <p className="text-lg font-semibold">No pets match your filters 🐾</p>
+        <p className="text-sm mt-2">Try adjusting your search criteria.</p>
+      </div>
+    ) : (
+      <>
 
       <div className="max-w-6xl mx-50 pt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         {filteredPets.slice(0, visibleCount).map((pet) => (  //slices the number of pets shown 
@@ -180,14 +189,15 @@ onClick={() => setSelectedPet(pet)} // open modal on click
         <div className="flex justify-center mt-8">
           <button
             onClick={() => setVisibleCount(visibleCount + 9)}
-            className="px-4 py-2 bg-teal-600 opacity-80 text-white rounded-lg hover:shadow-sm  cursor-pointer font-nunito"
+            className=" px-5 py-2.5 bg-teal-600 opacity-80 shadow-md  text-white rounded-lg hover:shadow-lg  cursor-pointer font-nunito"
           >
             Show More
           </button>
         </div>
-      )}
-
-    </section>
+        )}
+      </>
+    )}
+  </section>
   );
 };
 
